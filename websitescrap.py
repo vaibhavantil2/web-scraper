@@ -15,12 +15,24 @@ request_client = ReqestClient()
 
 
 def write_url_data(url, response_text):
-    if not os.path.exists(config.DATA_DIR):
-        os.mkdir(config.DATA_DIR)
-    file_path = config.DATA_DIR + str(uuid.uuid3(uuid.NAMESPACE_URL, str(url))) + ".json"
+    url_component = urlparse(url)
+    print(url_component)
+    if not url_component.path:
+        url_component = url_component._replace(path="/index.html")
+    last_token = url_component.path.rsplit('/', 1)
+    if "." not in last_token[0]:
+        url_component = url_component._replace(path=url_component.path + ".html")
+    path = Path("./" + url_component.netloc + "/" + url_component.path)
+    if not os.path.exists(path.parent):
+        path.parent.mkdir(parents=True, exist_ok=True)
+    # if not os.path.exists(config.DATA_DIR):
+    #   os.mkdir(config.DATA_DIR)
+    # file_path = config.DATA_DIR + str(uuid.uuid3(uuid.NAMESPACE_URL, str(url))) + ".json"
+    file_path = path
     if not os.path.exists(file_path):
         with open(file_path, "w") as fp:
-            json.dump({url: response_text}, fp)
+            fp.write(response_text)
+            # json.dump({url: response_text}, fp)
 
 
 class Websitescrap:
