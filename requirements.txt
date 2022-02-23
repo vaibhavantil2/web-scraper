@@ -4,9 +4,9 @@ chardet==3.0.4
 idna==2.10
 lxml==4.6.5
 psutil==5.7.0
-redis==3.5.3
 redislite==5.0.165407
-requests==2.24.0
+redis==3.5.3
+requests==2.27.1
 soupsieve==2.0.1
-urllib3
+urllib3==1.26.8
 requests-html==0.10.0
