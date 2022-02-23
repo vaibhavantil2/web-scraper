@@ -8,6 +8,8 @@ from random import randint
 from utils.extract_links_from_webpage import get_links
 from utils.request_client import ReqestClient
 from utils.url_utils import get_filtered_links
+from urllib.parse import urlparse
+from pathlib import Path
 import config
 from utils.redislite_utils import redis_cleanup, redis_client as redis
 
