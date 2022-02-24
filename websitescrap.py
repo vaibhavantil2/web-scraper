@@ -73,15 +73,17 @@ class Websitescrap:
             # if write_count > 13:
             #     break
 
-            response = request_client.request_with_proxy_header(url)
-            if not response or not response.status_code == 200:
-                continue
+            # response = request_client.request_with_proxy_header(url)
+            # if not response or not response.status_code == 200:
+            #    continue
+            response = get_html(url)
+            print(response)
 
             # write response.text to a json dump file
-            write_url_data(url, response.text)
+            write_url_data(url, response['browserHtml'])
 
             # get the urls for local page
-            local_urls = [*get_links(response.text, self.url).keys()]
+            local_urls = [*get_links(response['browserHtml'], self.url).keys()]
 
             # filter the urls of foreign urls or dummy urls
             local_urls = get_filtered_links(local_urls, self.url)
