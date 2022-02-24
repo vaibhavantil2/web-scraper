@@ -12,6 +12,9 @@ from urllib.parse import urlparse
 from pathlib import Path
 import config
 from utils.redislite_utils import redis_cleanup, redis_client as redis
+from zyteclient import get_html
+from bs4 import BeautifulSoup
+from html5print import CSSBeautifier, JSBeautifier
 
 request_client = ReqestClient()
 
@@ -31,11 +34,17 @@ def write_url_data(url, response_text):
     #   os.mkdir(config.DATA_DIR)
     # file_path = config.DATA_DIR + str(uuid.uuid3(uuid.NAMESPACE_URL, str(url))) + ".json"
     file_path = path
+    response_text = beutify_html(response_text)
     if not os.path.exists(file_path):
         with open(file_path, "w") as fp:
             fp.write(response_text)
             # json.dump({url: response_text}, fp)
 
+def beutify_html(html):
+    # html = JSBeautifier.beautify(html)
+    html = CSSBeautifier.beautifyTextInHTML(html)
+    html = BeautifulSoup(html, 'html.parser').prettify()
+    return html
 
 class Websitescrap:
     def __init__(self, url, start_afresh=False):
