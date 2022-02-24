@@ -10,3 +10,4 @@ requests==2.27.1
 soupsieve==2.0.1
 urllib3==1.26.8
 requests-html==0.10.0
+html5print==0.1.2
